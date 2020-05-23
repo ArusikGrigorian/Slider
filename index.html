@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<title>Slider</title>
+</head>
+<body>
+	<div id="mainContainer">
+		<div id="sliderContainer">
+			<div id="sliderBar">
+				<div  class="mountain first"  id="1"></div>
+				<div  class="mountain second" id="2"></div>
+				<div  class="mountain third"  id="3"></div>
+				<div  class="mountain forth"  id="4"></div>
+				<div  class="mountain fifth"  id="5"></div>
+				<div class="bckfrwContainer posFirst" id="backNDforw">
+					<button type="button" class="button" id="back" onmouseover="makeBig(this)" onmouseout="makeNormal(this)" onclick="moveBck()"><</button>
+					<button type="button" class="button" id="forward" onmouseover="makeBig(this)" onmouseout="makeNormal(this)" onclick="moveForw()">></button>
+				</div>
+				<div class="stppsContainer posFirst" id="stopNDpause">
+					<button type="button" class="button" id="stoppause" onmouseover="makeBig(this)" onmouseout="makeNormal(this)" onclick="playAuto()">Auto</button>
+				</div>
+				<!--<div id="chngingCircl">
+					<div  class="circle" id="one"></div>
+					<div  class="circle" id="two"></div>
+					<div  class="circle" id="three"></div>
+					<div  class="circle" id="four"></div>
+					<div  class="circle" id="five"></div>
+				</div>-->
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+	
+	let currentId = 1;
+	let interval = null;
+	
+	function moveForw() {
+		let currentDiv = document.getElementById(currentId);
+		let length = document.getElementsByClassName("mountain").length;
+
+		
+		if (currentId != length) {
+			currentDiv.style.visibility = "hidden";
+			//moveCirclesForw();
+			currentId++;
+		}
+		else if (currentId == length) {
+			currentId = 1;
+			let divsArr = Array.from(document.getElementsByClassName("mountain"));
+			divsArr.forEach(div => div.style.visibility = "visible");
+		}
+	}
+
+	function moveBck() {
+		let bckDiv = document.getElementById(currentId-1);
+
+		if (currentId != 1){
+			bckDiv.style.visibility = "visible";
+			//moveCirclesBack();
+			currentId--;
+		}
+		else if (currentId == 1) {
+			currentId = 5;
+			let allDivsArr = Array.from(document.getElementsByClassName("mountain"));
+			allDivsArr.forEach((div, index, array) => {
+				return (
+					div.style.visibility = "hidden",
+					array[array.length - 1].style.visibility = "visible"
+				);
+			});
+		}
+	}
+
+	function playAuto() {
+
+		if (interval) {
+			clearInterval(interval);
+			document.getElementById("stoppause").innerHTML = "Auto";
+			interval = null;
+		}	
+		else {
+			interval = setInterval(moveForw, 1000);
+		 	document.getElementById("stoppause").innerHTML = "Stop";	
+		}
+	}
+
+	function makeBig(btns) {
+		btns.style.width = "65px";
+		btns.style.height = "35px";
+		btns.style.fontSize = "15px";
+	}
+
+	function makeNormal(btns) {
+		btns.style.width = "60px";
+		btns.style.height = "30px";
+		btns.style.fontSize = "14px";
+	}
+
+	</script>
+</body>
+</html>
